@@ -22,7 +22,7 @@
     "re-base": "^4.0.0",
     "react": "16.8.0",
     "react-chartist": "0.14.4",
-    "react-dom": "17.0.0",
+    "react-dom": "16.8.0",
     "react-router-dom": "5.2.0",
     "react-scripts": "4.0.3",
     "react-swipeable-views": "0.13.9",
