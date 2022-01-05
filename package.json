@@ -2,8 +2,11 @@
   "name": "my-iris",
   "version": "1.10.0",
   "description": "Gestion et suivi des comptes client",
-  "private": false,
-  "main": "dist/index.js",
+  "private": true,
+  "engines": {
+    "npm": "7.21.0",
+    "node": "14.15.4"
+  },
   "dependencies": {
     "@material-ui/core": "4.11.4",
     "@material-ui/icons": "4.11.2",
@@ -26,6 +29,8 @@
     "sweetalert2": "^11.3.0",
     "uuid": "^8.3.2"
   },
+
+
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -38,17 +43,6 @@
     "build-package": "npm run build-package-css && babel src --out-dir dist",
     "format": "prettier --write \"src/**/*.js\" \"src/**/*.jsx\" \"src/**/*.ts\" \"src/**/*.tsx\""
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Gervais-MIHINDOU/my-iris.git"
-  },
-  "keywords": [],
-  "author": "Creative Tim <hello@creative-tim.com> (https://www.creative-tim.com/)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/creativetimofficial/material-dashboard-react/issues"
-  },
-  "homepage": "https://creativetimofficial.github.io/material-dashboard-react/#/dashboard",
   "optionalDependencies": {
     "@babel/core": "7.14.0",
     "typescript": "4.2.4"
@@ -59,13 +53,5 @@
     "gulp": "4.0.2",
     "gulp-append-prepend": "1.0.9",
     "prettier": "2.2.1"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": []
   }
 }
