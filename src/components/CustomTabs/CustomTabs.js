@@ -9,10 +9,10 @@ import classNames from "classnames";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
-import SearchBar from "material-ui-search-bar";
+import SearchBarIris from "components/SEARCH/SearchBarIris";
 // nodejs library to set properties for components
 import PropTypes from "prop-types";
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 
 const useStyles = makeStyles(styles);
 
@@ -26,17 +26,11 @@ export default function CustomTabs(props) {
     setSearchValue,
     isNotif,
   } = props;
-  const [valueToSearch, setValueToSearch] = useState();
 
-  const handleChangeSearch = (newValue) => {
-    setValueToSearch(newValue);
-  };
-
-  const submitValueToSearch = () => {
+  const submitValueToSearch = (valueToSearch) => {
     console.log("Valeur à chercher");
     console.log(valueToSearch);
     setSearchValue(valueToSearch);
-    setValueToSearch();
   };
   const [value, setValue] = React.useState(0);
   const handleChange = (event, value) => {
@@ -83,9 +77,8 @@ export default function CustomTabs(props) {
                   {...icon}
                 />
                 {!isNotif ? (
-                  <SearchBar
+                  <SearchBarIris
                     placeholder={"Recherche utilisateur"}
-                    onChange={handleChangeSearch}
                     onRequestSearch={submitValueToSearch}
                   />
                 ) : (
