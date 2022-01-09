@@ -27,7 +27,6 @@
     "react-swipeable-views": "0.13.9",
     "sweetalert2": "^11.3.0",
     "uuid": "^8.3.2"
-
   },
 
 
@@ -36,7 +35,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start",
+    "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install --force && npm start",
     "lint:check": "eslint . --ext=js,jsx;  exit 0",
     "lint:fix": "eslint . --ext=js,jsx --fix;  exit 0",
     "build-package-css": "cp src/assets/css/material-dashboard-react.css dist/material-dashboard-react.css",
