@@ -23,7 +23,6 @@
     "react-dom": "17.0.0",
     "react-router-dom": "5.2.0",
     "react-scripts": "4.0.3",
-    "react-swipeable-views": "0.13.9",
     "sweetalert2": "^11.3.0",
     "uuid": "^8.3.2"
   },
