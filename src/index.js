@@ -30,8 +30,12 @@ const Root = () => (
   <UserProvider>
     <BrowserRouter>
       <Switch>
-        <Route path="/admin" component={Admin} />
-        <Route path="/client" component={Utilisateur} />
+        <Route path="/admin">
+           <Admin />
+        </Route>
+        <Route path="/client">
+          <Utilisateur />
+        </Route>
         <Route path="/login">
           <SignIn />
         </Route>
