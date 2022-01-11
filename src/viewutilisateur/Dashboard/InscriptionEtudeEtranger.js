@@ -67,6 +67,16 @@ const InscriptionEtudeEtranger = () => {
     }
   };
 
+
+  const dossier_etudiant_terminer = () => {
+    if (client?.is_dossier_etudiant_clos) {
+
+      return client.message_dossier_etudiant_clos ? message_dossier_etudiant_clos : "Felicitation ! votre procedure études a l'étrangère est terminé. Merci d'avoir choisi MY IRIS";
+    } else {
+        "En attente de votre message de cloture."
+    }
+  };
+
   const style = {
     "font-size": "17px",
     "font-weight": "500",
@@ -367,6 +377,46 @@ const InscriptionEtudeEtranger = () => {
           <ProcedureVisa />
         </AccordionDetails>
       </Accordion>
+
+
+
+   {isAdmin || client?.is_dossier_etudiant_clos ?
+   (<Accordion>
+    <AccordionSummary
+      expandIcon={<ExpandMoreIcon />}
+      aria-controls="panel3a-content"
+      id="panel5a-header"
+    >
+      <Typography style={style}>5 - CLOTURE DU DOSSIER </Typography>
+    </AccordionSummary>
+    <AccordionDetails>
+      <Typography variant="h10" style={getStyleMessage(client?.logementOK)}>
+        <Fragment>
+          {isAdmin ? (
+            <ButtonForm
+              messageButton={
+                client?.is_dossier_etudiant_clos
+                    ? "DECLOTURER LE DOSSIER" : "CLOTURER LE DOSSIER"
+              }
+              text={
+                client?.message_dossier_etudiant_clos
+                  ? "Vous etes sur le point de modifier le message de cloture"
+                  : "Vous etes sur le point de confirmer le message de cloture"
+              }
+              propertieToSet={"is_dossier_etudiant_clos"}
+              success={client?.message_dossier_etudiant_clos}
+              choice={"message_dossier_etudiant_clos"}
+            />
+          ) : (
+            ""
+          )}
+
+          {"  " + dossier_etudiant_terminer()}
+        </Fragment>
+      </Typography>
+    </AccordionDetails>
+  </Accordion>)  : "" }
+      
     </div>
   );
 };

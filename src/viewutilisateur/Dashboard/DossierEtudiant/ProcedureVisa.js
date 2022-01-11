@@ -105,19 +105,22 @@ const ProcedureVisa = () => {
           <DetailGarant />
         </AccordionDetails>
       </Accordion>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2a-content"
-          id="panel2a-header"
-        >
-          <Typography style={style}>{"2 - Documents du Garant"}</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <DocumentsGarant />
-        </AccordionDetails>
-      </Accordion>
 
+      {
+         isAdmin ? <Accordion>
+         <AccordionSummary
+           expandIcon={<ExpandMoreIcon />}
+           aria-controls="panel2a-content"
+           id="panel2a-header"
+         >
+           <Typography style={style}>{"2 - Documents du Garant"}</Typography>
+         </AccordionSummary>
+         <AccordionDetails>
+           <DocumentsGarant />
+         </AccordionDetails>
+       </Accordion> : ""
+      }
+      
       <Accordion disabled={!client?.logementOK}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
