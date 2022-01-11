@@ -73,7 +73,7 @@ const InscriptionEtudeEtranger = () => {
 
       return client.message_dossier_etudiant_clos ? message_dossier_etudiant_clos : "Felicitation ! votre procedure études a l'étrangère est terminé. Merci d'avoir choisi MY IRIS";
     } else {
-        "En attente de votre message de cloture."
+       return "En attente de votre message de cloture."
     }
   };
 
