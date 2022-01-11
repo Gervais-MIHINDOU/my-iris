@@ -70,8 +70,7 @@ const InscriptionEtudeEtranger = () => {
 
   const dossier_etudiant_terminer = () => {
     if (client?.is_dossier_etudiant_clos) {
-
-      return client.message_dossier_etudiant_clos ? message_dossier_etudiant_clos : "Felicitation ! votre procedure études a l'étrangère est terminé. Merci d'avoir choisi MY IRIS";
+      return client?.message_dossier_etudiant_clos ? message_dossier_etudiant_clos : "Felicitation ! votre procedure études a l'étrangère est terminé. Merci d'avoir choisi MY IRIS";
     } else {
        return "En attente de votre message de cloture."
     }

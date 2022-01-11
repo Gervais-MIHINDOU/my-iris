@@ -16,6 +16,7 @@ import styles from "assets/jss/material-dashboard-react/components/headerLinksSt
 import classNames from "classnames";
 import Button from "components/CustomButtons/Button.js";
 import useConfig from "hooks/useConfig";
+import { Signout } from "layouts/Signout";
 import PropTypes from "prop-types";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -24,6 +25,12 @@ import Swal from "sweetalert2";
 const useStyles = makeStyles(styles);
 
 const ClientNavBar = ({ client, isAdmin }) => {
+
+
+  const signOut = () => {
+
+    Signout();
+  }
   const conf = useConfig();
 
   const getNbrNewNotif = () => {
@@ -147,6 +154,7 @@ const ClientNavBar = ({ client, isAdmin }) => {
                       className={classes.dropdownItem}
                       component={Link}
                       to="/login"
+                      onClick = {signOut}
                     >
                       Deconnexion
                     </MenuItem>
