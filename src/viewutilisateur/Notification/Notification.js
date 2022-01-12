@@ -19,7 +19,7 @@ const Notification = () => {
   const getNotifs = () => {
     const user = isAdmin ? admin : client;
 
-    return user?.notifications?.reverse()?.map((notif) => {
+    return user?.notifications?.map((notif) => {
       return {
         val1: notif.id,
         val2: notif.Object,
@@ -28,7 +28,7 @@ const Notification = () => {
         val5: notif.Provenance,
         val6: notif.isNew,
       };
-    });
+    })?.reverse();
   };
 
   const detailAdmin = (id, event) => {
