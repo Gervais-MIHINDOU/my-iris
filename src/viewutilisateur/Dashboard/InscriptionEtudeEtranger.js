@@ -404,8 +404,8 @@ const InscriptionEtudeEtranger = () => {
               }
               text={
                 client?.message_dossier_etudiant_clos
-                  ? "Vous etes sur le point de modifier le message de cloture"
-                  : "Vous etes sur le point de confirmer le message de cloture"
+                  ? "Vous etes sur le point de décloturer le dossier"
+                  : "Vous etes sur le point de confirmer la cloture du dossier"
               }
               propertieToSet={"is_dossier_etudiant_clos"}
               success={client?.message_dossier_etudiant_clos}
