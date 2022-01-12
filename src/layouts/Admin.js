@@ -17,6 +17,7 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 import React, { useContext, useEffect, useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import routesAdmin from "routesadmin";
+import Swal from "sweetalert2";
 import AdminProfile from "viewadmin/AdminProfile/AdminProfile";
 import DetailClient from "viewadmin/Clients/DetailClient";
 import ListClient from "viewadmin/Clients/ListClient";
