@@ -108,7 +108,7 @@ const Utilisateur = ({ ...rest }) => {
 
 
  if(!isConnected){
-    return <Redirect to="/login" />
+    return <Redirect to="/" />
  }
 
   return (
