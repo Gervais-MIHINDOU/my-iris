@@ -27,7 +27,8 @@ const useStyles = makeStyles(styles);
 const ClientNavBar = ({ client, isAdmin }) => {
 
 
-  const signOut = () => {
+  const signOut = (event) => {
+    event.preventDefault;
     Signout();
   }
   const conf = useConfig();

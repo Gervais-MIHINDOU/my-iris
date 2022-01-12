@@ -11,6 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { ExitToApp } from "@material-ui/icons";
 import styles from "assets/jss/material-dashboard-react/components/sidebarStyle.js";
 import classNames from "classnames";
+import { Signout } from "layouts/Signout";
 import PropTypes from "prop-types";
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
@@ -30,6 +31,11 @@ export default function Sidebar(props) {
     return location.pathname === routeName;
   }
   const { color, logo, image, logoText, routes } = props;
+
+  const signOut = (event) => {
+    event.preventDefault;
+    Signout();
+  }
 
   var links = (
     <List className={classes.list}>
@@ -89,15 +95,16 @@ export default function Sidebar(props) {
         matchesNotSm ?  "":   (<NavLink
           to={"/login"}
           activeClassName="active"
+          onClick={signOut}
         >
           <ListItem button className={classes.itemLink + listItemClasses}>
-              <Icon
-                className={classNames(classes.itemIcon, whiteFontClasses, {
-                  [classes.itemIconRTL]: props.rtlActive,
-                })}
-              >
+              <Icon>
                 <ExitToApp />
               </Icon>
+              <ListItemText
+                primary={"Deconnexion"}
+                disableTypography={true}
+              />
           </ListItem>
         </NavLink> )
       }
