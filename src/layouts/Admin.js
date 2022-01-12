@@ -120,12 +120,12 @@ export default function Admin({ ...rest }) {
 
 
   if(!isConnected){
-    return <Redirect to="/" />
+    return <Redirect push to="/" />
   }
 
-  if(!matchesNotSm){
-    Swal.fire("En tant au'admin vous devez vous connecter sur un ordinateur et non sur un Telephone!", "", "success");
-    return <Redirect to="/" />
+  if(matchesNotSm){
+    Swal.fire("En tant au'admin vous devez vous connecter sur un ordinateur et non sur un Telephone!", "", "error");
+    return <Redirect push to="/" />
   }
 
   return (
