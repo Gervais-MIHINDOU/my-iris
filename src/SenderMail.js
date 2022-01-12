@@ -1,14 +1,14 @@
 import emailjs from '@emailjs/browser';
 import{ init } from '@emailjs/browser';
 
-import {REACT_APP_YOUR_SERVICE_ID, REACT_APP_YOUR_TEMPLATE_ID,REACT_APP_YOUR_USER_ID} from "@env"
-
+//import {REACT_APP_YOUR_SERVICE_ID, REACT_APP_YOUR_TEMPLATE_ID,REACT_APP_YOUR_USER_ID} from "@env"
+require('dotenv').config();
 
 const SenderEmail = (email,message,user_name) => {
    /// require('dotenv').config()
-    console.log('Le user id variable d environnement ==>');
-    console.log(REACT_APP_YOUR_USER_ID);
-    init(REACT_APP_YOUR_USER_ID);
+   /// console.log('Le user id variable d environnement ==>');
+    console.log(process.env.REACT_APP_YOUR_USER_ID);
+    init(process.env.REACT_APP_YOUR_USER_ID);
     var form ={}; 
     /*****form.append('email',email)
     form.append('message',message)
@@ -18,7 +18,7 @@ const SenderEmail = (email,message,user_name) => {
     form['message']= message;
     form['user_name']= user_name;
 
-    emailjs.send(REACT_APP_YOUR_SERVICE_ID, REACT_APP_YOUR_TEMPLATE_ID, form, REACT_APP_YOUR_USER_ID)
+    emailjs.send(process.env.REACT_APP_YOUR_SERVICE_ID, process.env.REACT_APP_YOUR_TEMPLATE_ID, form, process.env.REACT_APP_YOUR_USER_ID)
       .then((result) => {
           console.log(result.text);
       }, (error) => {
