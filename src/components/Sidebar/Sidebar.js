@@ -97,7 +97,7 @@ export default function Sidebar(props) {
           activeClassName="active"
           onClick={signOut}
         >
-          <ListItem button className={classes.itemLink + listItemClasses}>
+          <ListItem button >
               <Icon>
                 <ExitToApp />
               </Icon>
