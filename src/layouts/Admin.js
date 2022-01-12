@@ -1,5 +1,4 @@
 // @material-ui/core components
-import { useMediaQuery,useTheme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import logo from "assets/img/logoiris.JPG";
 import bgImage from "assets/img/sidebar-2.jpg";
@@ -17,7 +16,6 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 import React, { useContext, useEffect, useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import routesAdmin from "routesadmin";
-import Swal from "sweetalert2";
 import AdminProfile from "viewadmin/AdminProfile/AdminProfile";
 import DetailClient from "viewadmin/Clients/DetailClient";
 import ListClient from "viewadmin/Clients/ListClient";
@@ -32,9 +30,6 @@ const useStyles = makeStyles(styles);
 export default function Admin({ ...rest }) {
   const [isConnected, setIsConnected] = useState(true);
   const { isAdmin, setIsAdmin, setAdmin, admin } = useContext(UserContext);
-
-  const theme = useTheme();
-  const matchesNotSm = useMediaQuery(theme.breakpoints.up("sm"));
 
   const setAdminFetch = async (id) => {
     const utilisateur = await baseIris.fetch(`/${id}`, {});
@@ -120,11 +115,6 @@ export default function Admin({ ...rest }) {
 
 
   if(!isConnected){
-    return <Redirect push to="/" />
-  }
-
-  if(!matchesNotSm){
-    Swal.fire("En tant au'admin vous devez vous connecter sur un ordinateur et non sur un Telephone!", "", "error");
     return <Redirect push to="/" />
   }
 

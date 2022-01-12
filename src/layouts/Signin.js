@@ -121,6 +121,11 @@ const SignIn = () => {
     return <Redirect push to={`/client`} />;
   }
 
+  if (param.goInAppAdmin && !matchesNotSm) {
+    Swal.fire("En tant au'admin vous devez vous connecter sur un ordinateur et non sur un Telephone!", "", "error");
+    return <Redirect push to={`/`} />;
+  }
+
   if (param.goInAppAdmin) {
     return <Redirect push to={`/admin`} />;
   }
