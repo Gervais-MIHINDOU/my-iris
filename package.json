@@ -13,6 +13,7 @@
     "@material-ui/icons": "4.11.2",
     "chartist": "0.10.1",
     "classnames": "2.3.1",
+    "dotenv": "^11.0.0",
     "express": "^4.17.2",
     "firebase": "^7.1.2",
     "gapi-client": "^0.0.3",
