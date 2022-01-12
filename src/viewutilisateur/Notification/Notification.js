@@ -1,4 +1,5 @@
 // @material-ui/core components
+import { useMediaQuery, useTheme } from "@material-ui/core";
 import { NotificationImportant } from "@material-ui/icons";
 import baseIris from "baseiris";
 import CustomTabs from "components/CustomTabs/CustomTabs";
@@ -12,6 +13,10 @@ import React, { useContext } from "react";
 import Swal from "sweetalert2";
 
 const Notification = () => {
+
+  const theme = useTheme();
+  const matchesSm = useMediaQuery(theme.breakpoints.up("sm"));
+
   const { client, setClient, admin, setAdmin, isAdmin } = useContext(
     UserContext
   );
@@ -104,7 +109,7 @@ const Notification = () => {
                 tabIcon: NotificationImportant,
                 tabContent: (
                   <Tasks
-                    tableHead={["Object", "Severité", "Date", "Provenance"]}
+                    tableHead={matchesSm ? ["Object", "Severité", "Date", "Provenance"] : ["Object","Date", "Provenance"]  }
                     tasks={
                       getNotifs() && getNotifs().length > 0 ? getNotifs() : []
                     }

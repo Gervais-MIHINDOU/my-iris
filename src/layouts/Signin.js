@@ -1,10 +1,10 @@
-import { Avatar, Button, makeStyles, Typography } from "@material-ui/core";
+import { Avatar, Button, makeStyles, Typography, useMediaQuery, useTheme } from "@material-ui/core";
 import bgImage from "assets/img/logoDeIris.jpg";
+import bgImageSm from "assets/img/logoSm.jpeg";
 import styles from "assets/jss/material-dashboard-react/components/sidebarStyle.js";
 import baseIris, { firebaseApp } from "baseiris";
 import firebase from "firebase";
 import React, { useState } from "react";
-//import irisLogo from "../img/logoiris.JPG";
 import { Redirect } from "react-router-dom";
 import EnumObjectNotif from "viewutilisateur/Notification/EnumObjectNotif";
 import googleLogo from "../img/google-logo.png";
@@ -50,6 +50,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignIn = () => {
+
+  const theme = useTheme();
+  const matchesNotSm = useMediaQuery(theme.breakpoints.up("sm"));
+
   const [param, setParam] = useState({});
 
   const classes = useStyles();
@@ -142,7 +146,7 @@ const SignIn = () => {
 
       <div
         className={classesBackgound.background}
-        style={{ backgroundImage: "url(" + bgImage + ")" }}
+        style={matchesNotSm ? { backgroundImage: "url(" + bgImage + ")" } :  { backgroundImage: "url(" + bgImageSm + ")" }}
       />
     </div>
   );

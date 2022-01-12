@@ -1,4 +1,4 @@
-import { TableHead } from "@material-ui/core";
+import { TableHead, useMediaQuery, useTheme } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -20,6 +20,8 @@ import React from "react";
 const useStyles = makeStyles(styles);
 
 export default function Tasks(props) {
+  const theme = useTheme();
+  const matchesNotSm = useMediaQuery(theme.breakpoints.up("sm"));
   const classes = useStyles();
   const {
     tasks,
@@ -59,7 +61,9 @@ export default function Tasks(props) {
             className={classes.tableRow}
           >
             <TableCell className={tableCellClasses}>{value.val2}</TableCell>
-            <TableCell className={tableCellClasses}>{value.val3}</TableCell>
+
+            {matchesNotSm ? <TableCell className={tableCellClasses}>{value.val3}</TableCell> : ""}
+            
             <TableCell className={tableCellClasses}>{value.val4}</TableCell>
             <TableCell className={tableCellClasses}>{value.val5}</TableCell>
             <TableCell className={classes.tableActions}>

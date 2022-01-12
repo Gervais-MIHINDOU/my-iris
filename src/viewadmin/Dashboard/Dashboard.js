@@ -1,4 +1,5 @@
 // @material-ui/core
+import { useMediaQuery, useTheme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { PermIdentity, Policy } from "@material-ui/icons";
 import Accessibility from "@material-ui/icons/Accessibility";
@@ -31,6 +32,9 @@ import Calendrier from "./Calendrier";
 
 const useStyles = makeStyles(styles);
 const Dashboard = () => {
+  const theme = useTheme();
+  const matchesNotSm = useMediaQuery(theme.breakpoints.up("sm"));
+
   const { admin } = useContext(UserContext);
   const [mombreClientTotal, setNombreClientTotal] = useState(0);
   const [nombreUtilisateurs, setNombreUtilisateurs] = useState(0);
@@ -659,9 +663,13 @@ const Dashboard = () => {
                 tabIcon: Policy,
                 tabContent: (
                   <Tasks
-                    tableHead={[
+                    tableHead={matchesNotSm ? [
                       "nom",
                       "email",
+                      "date d'inscription",
+                      "dernière date actif",
+                    ] : [
+                      "nom",
                       "date d'inscription",
                       "dernière date actif",
                     ]}

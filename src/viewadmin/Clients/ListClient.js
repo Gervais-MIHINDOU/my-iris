@@ -1,4 +1,5 @@
 // @material-ui/core components
+import { useMediaQuery, useTheme } from "@material-ui/core";
 import Person from "@material-ui/icons/Person";
 import baseIris from "baseiris";
 import CustomTabs from "components/CustomTabs/CustomTabs";
@@ -12,6 +13,10 @@ import { Redirect } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const ListClient = () => {
+
+  const theme = useTheme();
+  const matchesNotSm = useMediaQuery(theme.breakpoints.up("sm"));
+
   const [searchValue, setSearchValue] = useState();
   const { client, setClient } = useContext(UserContext);
   const [id, setId] = useState();
@@ -143,9 +148,13 @@ const ListClient = () => {
               tabIcon: Person,
               tabContent: (
                 <Tasks
-                  tableHead={[
+                  tableHead={matchesNotSm ? [
                     "nom",
                     "email",
+                    "date d'inscription",
+                    "dernière date actif",
+                  ] : [
+                    "nom",
                     "date d'inscription",
                     "dernière date actif",
                   ]}
