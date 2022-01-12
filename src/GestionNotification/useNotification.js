@@ -1,11 +1,19 @@
 import EnumObjectNotif from "viewutilisateur/Notification/EnumObjectNotif";
 import { v4 as uuidv4 } from "uuid";
 import baseIris from "baseiris";
+import { SenderEmail } from "SenderMail";
 
 const addNotifAdmin = (admin, status, nom) => {
   if (!admin?.notifications) {
     admin["notifications"] = [];
   }
+
+  const message =  "Le dossier du client " +
+  nom +
+  " a évolué, Votre validation est attendu d'urgence. Le status du dossier est : " +
+  status +
+  ". Merci de ne pas faire trop attendre le client";
+
   admin["notifications"].push({
     id: uuidv4(),
     Object: "URGENT",
@@ -13,15 +21,11 @@ const addNotifAdmin = (admin, status, nom) => {
     Date: new Date().toISOString().split("T")[0],
     Provenance: "MY IRIS",
     isNew: true,
-    message:
-      "Le dossier du client " +
-      nom +
-      " a évolué, Votre validation est attendu d'urgence. Le status du dossier est : " +
-      status +
-      ". Merci de ne pas faire trop attendre le client",
+    message: message,
   });
 
   baseIris.update(`/${admin.id}/client`, { data: admin });
+  SenderEmail(admin.email,message,nom);
 };
 
 const notifAdminEvolutiondossier = (status, nom) => {
@@ -36,6 +40,10 @@ const notifClientEvolutiondossier = (client, status) => {
   if (!client?.notifications) {
     client["notifications"] = [];
   }
+  const message = "Votre Dossier a évolué,Il a été validé par My IRIS il est maintenant à l'étape " +
+  status +
+  "\nVeuillez poursuivre les prochaines étapes pour l'évolution de votre dossier";
+
   client["notifications"].push({
     id: uuidv4(),
     Object: "Bonne nouvelle",
@@ -43,12 +51,9 @@ const notifClientEvolutiondossier = (client, status) => {
     Date: new Date().toISOString().split("T")[0],
     Provenance: "MY IRIS",
     isNew: true,
-    message:
-      "Votre Dossier a évolué,Il a été validé par My IRIS il est maintenant à l'étape " +
-      status +
-      "\nVeuillez poursuivre les prochaines étapes pour l'évolution de votre dossier",
+    message: message,
   });
-
+  SenderEmail(client.email,message,client.nom);
   return client;
 };
 

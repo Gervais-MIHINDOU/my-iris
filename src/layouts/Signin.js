@@ -1,6 +1,6 @@
 import { Avatar, Button, makeStyles, Typography, useMediaQuery, useTheme } from "@material-ui/core";
 import bgImage from "assets/img/logoDeIris.jpg";
-import bgImageSm from "assets/img/logoSm.jpeg";
+import bgImageSm from "assets/img/logobest2.jpg";
 import styles from "assets/jss/material-dashboard-react/components/sidebarStyle.js";
 import baseIris, { firebaseApp } from "baseiris";
 import firebase from "firebase";
