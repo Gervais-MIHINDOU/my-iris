@@ -130,7 +130,6 @@ const InscriptionEtudeEtranger = () => {
             input = input ? input : "Felicitation ! votre procedure études a l'étrangère est terminé. Merci d'avoir choisi MY IRIS";
         }
        
-
         if (input) {
           client[propertieToSet] = true;
           client[choice] = input;
@@ -178,7 +177,7 @@ const InscriptionEtudeEtranger = () => {
     return (
       <Button
         color={success ? "info" : "success"}
-        onClick={(e) => formActionAdmin(text, propertieToSet, choice, e)}
+        onClick={(e) => propertieToSet === 'is_dossier_etudiant_clos' && client?.is_dossier_etudiant_clos ? actionAdmin(text, propertieToSet, e) : formActionAdmin(text, propertieToSet, choice, e)}
       >
         <Typography component="p" variant="h8">
           {messageButton}
