@@ -1,6 +1,6 @@
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import logo from "assets/img/reactlogo.png";
+import logo from "assets/img/logoiris.JPG";
 import bgImage from "assets/img/sidebar-2.jpg";
 import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js";
 import baseIris from "baseiris";
@@ -13,7 +13,7 @@ import firebase from "firebase";
 // creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import routesAdmin from "routesadmin";
 import AdminProfile from "viewadmin/AdminProfile/AdminProfile";
@@ -28,6 +28,7 @@ let ps;
 const useStyles = makeStyles(styles);
 
 export default function Admin({ ...rest }) {
+  const [isConnected, setIsConnected] = useState(true);
   const { isAdmin, setIsAdmin, setAdmin, admin } = useContext(UserContext);
 
   const setAdminFetch = async (id) => {
@@ -37,7 +38,12 @@ export default function Admin({ ...rest }) {
 
   const reconnexion = async () => {
     await firebase.auth().onAuthStateChanged((user) => {
-      setAdminFetch(user.uid);
+      if(user?.uid){
+        setAdminFetch(user.uid);
+      }else{
+        setIsConnected(false)
+      }
+     
     });
   };
 
@@ -106,6 +112,11 @@ export default function Admin({ ...rest }) {
       window.removeEventListener("resize", resizeFunction);
     };
   }, [mainPanel]);
+
+
+  if(!isConnected){
+    return <Redirect to="/login" />
+  }
 
   return (
     <div className={classes.wrapper}>

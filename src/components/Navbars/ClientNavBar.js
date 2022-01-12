@@ -28,7 +28,6 @@ const ClientNavBar = ({ client, isAdmin }) => {
 
 
   const signOut = () => {
-
     Signout();
   }
   const conf = useConfig();

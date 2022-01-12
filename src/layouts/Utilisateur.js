@@ -10,7 +10,7 @@ import firebase from "firebase";
 // creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import routes from "routesuser.js";
 import Notification from "viewutilisateur/Notification/Notification";
@@ -28,6 +28,8 @@ const useStyles = makeStyles(styles);
 const Utilisateur = ({ ...rest }) => {
   const { client, setClient } = useContext(UserContext);
 
+  const [isConnected, setIsConnected] = useState(true);
+
   const setClientFetch = async (id) => {
     const utilisateur = await baseIris.fetch(`/${id}`, {});
     setClient({ ...client, ...utilisateur.client });
@@ -35,7 +37,13 @@ const Utilisateur = ({ ...rest }) => {
 
   const reconnexion = async () => {
     await firebase.auth().onAuthStateChanged((user) => {
-      setClientFetch(user.uid);
+
+      if(user?.uid){
+        setClientFetch(user.uid);
+      }else{
+        setIsConnected(false)
+      }
+     
     });
   };
 
@@ -97,6 +105,11 @@ const Utilisateur = ({ ...rest }) => {
       window.removeEventListener("resize", resizeFunction);
     };
   }, [mainPanel]);
+
+
+ if(!isConnected){
+    return <Redirect to="/login" />
+ }
 
   return (
     <div className={classes.wrapper}>
