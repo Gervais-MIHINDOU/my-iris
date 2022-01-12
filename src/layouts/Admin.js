@@ -123,7 +123,7 @@ export default function Admin({ ...rest }) {
     return <Redirect push to="/" />
   }
 
-  if(matchesNotSm){
+  if(!matchesNotSm){
     Swal.fire("En tant au'admin vous devez vous connecter sur un ordinateur et non sur un Telephone!", "", "error");
     return <Redirect push to="/" />
   }
