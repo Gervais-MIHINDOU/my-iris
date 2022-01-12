@@ -7,6 +7,17 @@
     ["module-resolver", {
       "root": ["./src"]
       }],
-      ["import-rename", {"^(.*)\\.jsx$": "$1"}]
+      ["import-rename", {"^(.*)\\.jsx$": "$1"}],
+
+      ["dotenv-import", {
+        "moduleName": "@env",
+        "path": ".env",
+        "blacklist": null,
+        "whitelist": null,
+        "safe": false,
+        "allowUndefined": false
+      }]
     ]
+
+    
   }
