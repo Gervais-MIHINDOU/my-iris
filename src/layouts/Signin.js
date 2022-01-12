@@ -1,5 +1,5 @@
 import { Avatar, Button, makeStyles, Typography } from "@material-ui/core";
-import bgImage from "assets/img/sidebar-2.jpg";
+import bgImage from "assets/img/logoDeIris.JPG";
 import styles from "assets/jss/material-dashboard-react/components/sidebarStyle.js";
 import baseIris, { firebaseApp } from "baseiris";
 import firebase from "firebase";
@@ -57,10 +57,11 @@ const SignIn = () => {
   const classesBackgound = useStylesBackground();
 
   const style = {
-    "font-size": "47px",
+    "font-size": "55px",
     "font-weight": "bold",
     "text-align": "center",
-    color: "#3067E3",
+    "font-family": "ui-sans-serif",
+     color: "white",
   };
   const submit = (event) => {
     event.preventDefault();
