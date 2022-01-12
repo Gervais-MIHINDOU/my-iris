@@ -1,5 +1,5 @@
 import { Avatar, Button, makeStyles, Typography } from "@material-ui/core";
-import bgImage from "assets/img/logoDeIris.JPG";
+import bgImage from "assets/img/logoDeIris.jpg";
 import styles from "assets/jss/material-dashboard-react/components/sidebarStyle.js";
 import baseIris, { firebaseApp } from "baseiris";
 import firebase from "firebase";
