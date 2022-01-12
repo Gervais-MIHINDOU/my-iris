@@ -403,7 +403,7 @@ const InscriptionEtudeEtranger = () => {
                     ? "DECLOTURER LE DOSSIER" : "CLOTURER LE DOSSIER"
               }
               text={
-                client?.message_dossier_etudiant_clos
+                client?.is_dossier_etudiant_clos
                   ? "Vous etes sur le point de décloturer le dossier"
                   : "Vous etes sur le point de confirmer la cloture du dossier"
               }
