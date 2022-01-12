@@ -1,4 +1,5 @@
 // @material-ui/core components
+import { useMediaQuery,useTheme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import logo from "assets/img/logoiris.JPG";
 import bgImage from "assets/img/sidebar-2.jpg";
@@ -30,6 +31,9 @@ const useStyles = makeStyles(styles);
 export default function Admin({ ...rest }) {
   const [isConnected, setIsConnected] = useState(true);
   const { isAdmin, setIsAdmin, setAdmin, admin } = useContext(UserContext);
+
+  const theme = useTheme();
+  const matchesNotSm = useMediaQuery(theme.breakpoints.up("sm"));
 
   const setAdminFetch = async (id) => {
     const utilisateur = await baseIris.fetch(`/${id}`, {});
@@ -115,6 +119,11 @@ export default function Admin({ ...rest }) {
 
 
   if(!isConnected){
+    return <Redirect to="/" />
+  }
+
+  if(!matchesNotSm){
+    Swal.fire("En tant au'admin vous devez vous connecter sur un ordinateur et non sur un Telephone!", "", "success");
     return <Redirect to="/" />
   }
 
