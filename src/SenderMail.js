@@ -1,10 +1,11 @@
 import emailjs from '@emailjs/browser';
 import{ init } from '@emailjs/browser';
-require('dotenv').config()
-console.log(process.env.YOUR_SERVICE_ID);
+
 
 const SenderEmail = (email,message,user_name) => {
-
+    require('dotenv').config()
+    console.log('Le user id variable d environnement ==>');
+    console.log(process.env.YOUR_SERVICE_ID);
     init(process.env.YOUR_USER_ID);
     var form ={}; 
     /*****form.append('email',email)
