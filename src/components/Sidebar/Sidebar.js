@@ -1,4 +1,5 @@
 /*eslint-disable*/
+import { useMediaQuery, useTheme } from "@material-ui/core";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import Icon from "@material-ui/core/Icon";
@@ -7,6 +8,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
+import { ExitToApp } from "@material-ui/icons";
 import styles from "assets/jss/material-dashboard-react/components/sidebarStyle.js";
 import classNames from "classnames";
 import PropTypes from "prop-types";
@@ -16,6 +18,11 @@ import { NavLink, useLocation } from "react-router-dom";
 const useStyles = makeStyles(styles);
 
 export default function Sidebar(props) {
+
+
+  const theme = useTheme();
+  const matchesNotSm = useMediaQuery(theme.breakpoints.up("sm")); 
+
   const classes = useStyles();
   let location = useLocation();
   // verifies if routeName is the one active (in browser input)
@@ -76,6 +83,24 @@ export default function Sidebar(props) {
           </NavLink>
         );
       })}
+
+      {
+
+        matchesNotSm ?  "":   (<NavLink
+          to={"/login"}
+          activeClassName="active"
+        >
+          <ListItem button className={classes.itemLink + listItemClasses}>
+              <Icon
+                className={classNames(classes.itemIcon, whiteFontClasses, {
+                  [classes.itemIconRTL]: props.rtlActive,
+                })}
+              >
+                <ExitToApp />
+              </Icon>
+          </ListItem>
+        </NavLink> )
+      }
     </List>
   );
   var brand = (
