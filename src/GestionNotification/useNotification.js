@@ -25,7 +25,7 @@ const addNotifAdmin = (admin, status, nom) => {
   });
 
   baseIris.update(`/${admin.id}/client`, { data: admin });
-  SenderEmail(admin.email,message,nom);
+  SenderEmail(admin.email,message,"Admin");
 };
 
 const notifAdminEvolutiondossier = (status, nom) => {
