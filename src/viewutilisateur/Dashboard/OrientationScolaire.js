@@ -140,7 +140,7 @@ const OrientationScolaire = () => {
 
       <Accordion
         disabled={
-          !client?.dossierOk ||
+          !client?.infoEleveOk ||
           !client?.parcoursDiplomeOk ||
           !client?.choixProOK
         }
