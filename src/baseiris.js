@@ -19,7 +19,7 @@ const baseIris = Rebase.createClass(firebaseApp.database());
 
 const fireStoreIris = Rebase.createClass(firebaseApp.firestore());
 
-// This is a named export
+// This is a named expor
 export { firebaseApp };
 
 export { fireStoreIris };
