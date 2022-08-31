@@ -18,6 +18,14 @@ import { notifClientEvolutiondossier } from "GestionNotification/useNotification
 
 const InscriptionEtudeEtranger = () => {
   const { client, setClient, isAdmin } = React.useContext(UserContext);
+  const [dossierOk, setDossierOk] = React.useState();
+  
+
+  const [expanded, setExpandedIEE] = React.useState(false);
+
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpandedIEE(isExpanded ? panel : false);
+  };
 
   const irisVerifieDossier = () => {
     if (client?.verificationDossierOk) {
@@ -196,7 +204,10 @@ const InscriptionEtudeEtranger = () => {
 
   return (
     <div>
-      <Accordion>
+      <Accordion
+       expanded={expanded === 'first'}
+       onChange={handleChange('first')}
+      >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -209,10 +220,16 @@ const InscriptionEtudeEtranger = () => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <DossierUser />
+          <DossierUser 
+             setExpandedIEE = {setExpandedIEE} 
+             setDossierOk={setDossierOk} />
         </AccordionDetails>
       </Accordion>
-      <Accordion disabled={!client?.dossierOk}>
+      <Accordion
+          disabled={client?.dossierOk ? false : !dossierOk}
+          expanded={expanded === 'verificationDossierOk'}
+          onChange={handleChange('verificationDossierOk')}
+          >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2a-content"
@@ -254,7 +271,11 @@ const InscriptionEtudeEtranger = () => {
           </Typography>
         </AccordionDetails>
       </Accordion>
-      <Accordion disabled={!client?.verificationDossierOk}>
+      <Accordion 
+          disabled={!client?.verificationDossierOk}
+          expanded={expanded === 'payementOk'}
+          onChange={handleChange('payementOk')}
+          >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel3a-content"
@@ -288,7 +309,11 @@ const InscriptionEtudeEtranger = () => {
         </AccordionDetails>
       </Accordion>
 
-      <Accordion disabled={!client?.payementOk}>
+      <Accordion 
+         disabled={!client?.payementOk}
+         expanded={expanded === 'etablissementOk'}
+         onChange={handleChange('etablissementOk')}
+         >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel3a-content"
@@ -330,7 +355,11 @@ const InscriptionEtudeEtranger = () => {
         </AccordionDetails>
       </Accordion>
 
-      <Accordion disabled={!client?.etablissementOk}>
+      <Accordion 
+        disabled={!client?.etablissementOk}
+        expanded={expanded === 'logementOK'}
+        onChange={handleChange('logementOK')}
+        >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel3a-content"
@@ -369,7 +398,11 @@ const InscriptionEtudeEtranger = () => {
         </AccordionDetails>
       </Accordion>
 
-      <Accordion disabled={!client?.logementOK}>
+      <Accordion 
+        disabled={!client?.logementOK}
+        expanded={expanded === 'procedureVisa'}
+        onChange={handleChange('procedureVisa')}>
+
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel6a-content"
@@ -386,7 +419,10 @@ const InscriptionEtudeEtranger = () => {
 
 
    {isAdmin || client?.is_dossier_etudiant_clos ?
-   (<Accordion>
+   (<Accordion
+      expanded={expanded === 'clotureDossierOK'}
+      onChange={handleChange('clotureDossierOK')}
+   >
     <AccordionSummary
       expandIcon={<ExpandMoreIcon />}
       aria-controls="panel3a-content"

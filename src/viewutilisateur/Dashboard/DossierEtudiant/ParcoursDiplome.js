@@ -4,6 +4,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 import baseIris from "baseiris";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
+import CardFooter from "components/Card/CardFooter";
 import Button from "components/CustomButtons/Button.js";
 import GridContainer from "components/Grid/GridContainer.js";
 // core components
@@ -13,6 +14,7 @@ import Table from "components/Table/Table.js";
 import { UserContext } from "context/userContextProvider";
 import LinkFile, { removeDoc, sendFiles } from "gestionFichier";
 import * as React from "react";
+import Swal from "sweetalert2";
 
 const styles = {
   root: {
@@ -22,7 +24,7 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-const ParcoursDiplome = () => {
+const ParcoursDiplome = ({setParcoursDiplomeOk, setExpanded}) => {
   const { client, setClient } = React.useContext(UserContext);
 
   const filesFromFileStore = React.useRef([]);
@@ -33,10 +35,31 @@ const ParcoursDiplome = () => {
   const [openDialog, setOpenDialog] = React.useState(false);
   const classes = useStyles();
 
-  const handleSubmit = (event) => {
+  const handleAjoutFormation = (event) => {
     event.preventDefault();
     setOpenDialog(true);
   };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    let size = 0;
+    if(client?.formations){
+       size = Object.keys(client.formations).length;
+    }
+    if ( size == 3){
+      setParcoursDiplomeOk(true);
+      setExpanded("parcoursDiplomeOk")
+      client["parcoursDiplomeOk"] = true;
+      baseIris.post(`/${client.id}/client`, { data: client });
+    }else{
+      Swal.fire({
+        icon: 'error',
+        title: 'Il faut obligatoirement 3 formations pour passer au suivant',
+        text: 'Vous avez actuellement  que '+ size +' formation(s)' 
+      })
+
+    }
+  }
 
   const ajouterFormation = (event) => {
     event.preventDefault();
@@ -51,16 +74,13 @@ const ParcoursDiplome = () => {
     client["formations"][formation.annee_scolaire] = formationClient;
 
     /** Modification du client */
-    client["parcoursDiplomeOk"] = true;
     baseIris.post(`/${client.id}/client`, { data: client });
     /** Envoi des fichiers sur filestore */
     sendFiles(filesFromFileStore.current, "justificatifs_formation");
-
+    setFormation({});
     /***Reinitialisation des fichiers */
     filesFromDatabase.current = {};
     filesFromFileStore.current = [];
-    setClient({ ...client });
-    setFormation({});
   };
 
   const annuler = (event) => {
@@ -113,7 +133,7 @@ const ParcoursDiplome = () => {
           <FormControl fullWidth>
             <GridContainer>
               <GridItem xs={12} sm={12} md={12}>
-                <Button color="info" onClick={handleSubmit} fullWidth>
+                <Button color="info" onClick={handleAjoutFormation} fullWidth>
                   AJOUTER UNE FORMATION
                 </Button>
               </GridItem>
@@ -199,6 +219,11 @@ const ParcoursDiplome = () => {
                 tableData={client?.formations ? tabFormations() : []}
               />
             </CardBody>
+            <CardFooter>
+            <Button color="info" onClick={handleSubmit}>
+              Suivant
+            </Button>
+          </CardFooter>
           </Card>
         </GridItem>
       </GridContainer>

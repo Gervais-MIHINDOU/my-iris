@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core";
+import { FormControl, makeStyles, MenuItem ,InputLabel,Select } from "@material-ui/core";
 import baseIris from "baseiris";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
@@ -10,6 +10,7 @@ import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import { UserContext } from "context/userContextProvider";
 import React, { useContext } from "react";
+import CountryIris from "./CountryIris";
 
 const styles = {
   root: {
@@ -18,7 +19,7 @@ const styles = {
 };
 
 const useStyles = makeStyles(styles);
-const InfoPerso = () => {
+const InfoPerso = ({setInfoPersoOK,setExpanded}) => {
   const { client, setClient } = useContext(UserContext);
 
   const classes = useStyles();
@@ -31,20 +32,24 @@ const InfoPerso = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    
     client["infoPersoOK"] = true;
     baseIris.update(`/${client.id}/client`, { data: client });
-    setClient(client);
+    setInfoPersoOK(true);
+    setExpanded("infoPersoOK");
   };
 
   return (
     <div className={classes.root}>
+    <form onSubmit={handleSubmit}>
       <GridContainer>
         <Card>
           <CardBody>
             <GridContainer>
               <GridItem xs={12} sm={12} md={4} lg={4}>
                 <CustomInput
-                  labelText="Nom"
+                  labelText="Nom *"
                   id="nom"
                   name="nom"
                   formControlProps={{
@@ -56,9 +61,12 @@ const InfoPerso = () => {
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={4} lg={4}>
+              <FormControl
+                 required={true}
+               >
                 <CustomInput
                   name="prenom"
-                  labelText="Prenom"
+                  labelText="Prenom *"
                   id="prenom"
                   formControlProps={{
                     fullWidth: true,
@@ -67,19 +75,23 @@ const InfoPerso = () => {
                   shrink={client?.prenom ? true : undefined}
                   onChange={handleChange}
                 />
+                </FormControl>
               </GridItem>
               <GridItem xs={12} sm={12} md={4} lg={4}>
-                <CustomInput
-                  name="sexe"
-                  labelText="Sexe"
-                  id="sexe"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  value={client?.sexe}
-                  shrink={client?.sexe ? true : undefined}
-                  onChange={handleChange}
-                />
+                <br/>
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Sexe *</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={client?.sexe}
+                    label="Sexe"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value={"F"}>F</MenuItem>
+                    <MenuItem value={"M"}>M</MenuItem>
+                  </Select>
+                </FormControl>
               </GridItem>
             </GridContainer>
 
@@ -87,7 +99,7 @@ const InfoPerso = () => {
               <GridItem xs={12} sm={4} md={4}>
                 <CustomInput
                   name="email"
-                  labelText="Email"
+                  labelText="Email *"
                   id="email-address"
                   formControlProps={{
                     fullWidth: true,
@@ -100,7 +112,7 @@ const InfoPerso = () => {
               <GridItem xs={12} sm={4} md={4}>
                 <CustomInput
                   name="phone"
-                  labelText="Numéro de telephone"
+                  labelText="Numéro de telephone *"
                   id="phone"
                   formControlProps={{
                     fullWidth: true,
@@ -126,23 +138,20 @@ const InfoPerso = () => {
             </GridContainer>
             <GridContainer>
               <GridItem xs={12} sm={2} md={2}>
-                <CustomInput
+                <br/>
+                <CountryIris 
                   name="pays"
-                  labelText="Pays"
-                  id="country"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  value={client?.pays}
-                  shrink={client?.pays ? true : undefined}
-                  onChange={handleChange}
-                />
+                  labelText="Pays *"
+                  id="pays"
+                  handleChange = {handleChange}
+                  value= {client?.pays}
+                  />      
               </GridItem>
 
               <GridItem xs={12} sm={2} md={2}>
                 <CustomInput
                   name="ville"
-                  labelText="Ville"
+                  labelText="Ville *"
                   id="city"
                   formControlProps={{
                     fullWidth: true,
@@ -198,17 +207,22 @@ const InfoPerso = () => {
 
             <GridContainer>
               <GridItem xs={12} sm={3} md={3}>
-                <CustomInput
-                  name="type_piece_identite"
-                  labelText="Type de pièce d'identité"
-                  id="type_piece_identite"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  value={client?.type_piece_identite}
-                  shrink={client?.type_piece_identite ? true : undefined}
-                  onChange={handleChange}
-                />
+                <br/>
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Type de pièce d'identité *</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={client?.type_piece_identite}
+                    label="Type de pièce d'identité"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value={"Passeport"}>Passeport</MenuItem>
+                    <MenuItem value={"CNI"}>CNI</MenuItem>
+                    <MenuItem value={"Carte de séjour,"}>Carte de séjour</MenuItem>
+                    <MenuItem value={"Récépissé"}>Récépissé</MenuItem>
+                  </Select>
+                </FormControl>
               </GridItem>
               <GridItem xs={12} sm={3} md={3}>
                 <CustomInput
@@ -224,25 +238,20 @@ const InfoPerso = () => {
                 />
               </GridItem>
               <GridItem xs={12} sm={3} md={3}>
-                <CustomInput
+                <br />
+                <CountryIris 
                   name="pays_de_delivrance_piece_identite"
-                  labelText="Pays de délivrance"
+                  labelText="Pays de délivrance  *"
                   id="pays_de_delivrance_piece_identite"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  value={client?.pays_de_delivrance_piece_identite}
-                  shrink={
-                    client?.pays_de_delivrance_piece_identite ? true : undefined
-                  }
-                  onChange={handleChange}
-                />
+                  handleChange = {handleChange}
+                  value= {client?.pays_de_delivrance_piece_identite}
+                  />  
               </GridItem>
 
               <GridItem xs={12} sm={3} md={3}>
                 <CustomInput
                   name="date_limite_de_validite"
-                  labelText="Date limite de validité"
+                  labelText="Date limite de validité *"
                   id="date_limite_de_validite"
                   formControlProps={{
                     fullWidth: true,
@@ -255,12 +264,13 @@ const InfoPerso = () => {
             </GridContainer>
           </CardBody>
           <CardFooter>
-            <Button color="info" onClick={handleSubmit}>
-              Je valide
+            <Button type="submit" color="info">
+              Suivant
             </Button>
           </CardFooter>
         </Card>
       </GridContainer>
+      </form>
     </div>
   );
 };

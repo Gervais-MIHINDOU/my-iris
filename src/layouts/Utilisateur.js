@@ -39,6 +39,7 @@ const Utilisateur = ({ ...rest }) => {
     await firebase.auth().onAuthStateChanged((user) => {
 
       if(user?.uid){
+        console.log("Lz user id "+user.uid);
         setClientFetch(user.uid);
       }else{
         setIsConnected(false)

@@ -9,16 +9,31 @@ import ComptenceLinguistique from "./ComptenceLinguistique";
 import InfoPerso from "./InfoPerso";
 import ParcoursDiplome from "./ParcoursDiplome";
 
-const DossierUser = () => {
+const DossierUser = ({setExpandedIEE,setDossierOk}) => {
   const { client } = React.useContext(UserContext);
   const style = {
     "font-size": "15px",
     "font-weight": "420",
   };
 
+  const [infoPersoOK, setInfoPersoOK] = React.useState();
+  const [parcoursDiplomeOk, setParcoursDiplomeOk] = React.useState();
+
+
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleChange = (panel) => (event, isExpanded) => {
+    console.log("changement de valeur")
+    console.log("La valeur de panel est "+panel)
+    setExpanded(isExpanded ? panel : false);
+  };
+
   return (
     <div>
-      <Accordion>
+      <Accordion
+         expanded={expanded === 'first'}
+         onChange={handleChange('first')}
+        >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -28,11 +43,17 @@ const DossierUser = () => {
             Ma situation personnelle actuelle
           </Typography>
         </AccordionSummary>
-        <AccordionDetails>
-          <InfoPerso />
+        <AccordionDetails >
+          <InfoPerso 
+            setInfoPersoOK= {setInfoPersoOK}
+            setExpanded= {setExpanded} />
         </AccordionDetails>
       </Accordion>
-      <Accordion disabled={!client?.infoPersoOK}>
+      <Accordion 
+         expanded={expanded === 'infoPersoOK'}
+         onChange={handleChange('infoPersoOK')}
+         disabled={client?.infoPersoOK ? false : !infoPersoOK }>
+
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2a-content"
@@ -41,19 +62,28 @@ const DossierUser = () => {
           <Typography style={style}>Mon parcours et mes diplômes</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <ParcoursDiplome />
+          <ParcoursDiplome
+             setParcoursDiplomeOk= {setParcoursDiplomeOk} 
+             setExpanded= {setExpanded} />
         </AccordionDetails>
       </Accordion>
-      <Accordion disabled={!client?.parcoursDiplomeOk}>
+      <Accordion 
+          expanded={expanded === 'parcoursDiplomeOk'} 
+          onChange={handleChange('parcoursDiplomeOk')}
+          disabled={client?.parcoursDiplomeOk ? false : !parcoursDiplomeOk}>
+
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel3a-content"
           id="panel3a-header"
         >
-          <Typography style={style}>Mes compétences linguistiques</Typography>
+          <Typography style={style}>Mes tests/ certificats de stage ou de travail</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <ComptenceLinguistique />
+          <ComptenceLinguistique
+               setParcoursDiplomeOk= {setParcoursDiplomeOk}
+               setExpandedIEE={setExpandedIEE} 
+               setDossierOk={setDossierOk} />
         </AccordionDetails>
       </Accordion>
     </div>

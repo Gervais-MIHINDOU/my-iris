@@ -19,7 +19,7 @@ const styles = {
   },
 };
 const useStyles = makeStyles(styles);
-const ComptenceLinguistique = () => {
+const ComptenceLinguistique = ({setExpandedIEE,setDossierOk}) => {
   const { client, setClient } = useContext(UserContext);
   const classes = useStyles();
   const [competence_linguistique, setCompetence_linguistique] = useState({});
@@ -82,8 +82,8 @@ const ComptenceLinguistique = () => {
       filePreuveDetudesFrenchFileStore.current,
       "justificatifs_competence_linguistique_PreuveDetudesFrench"
     );
-
-    setClient(clientUpdated);
+    setExpandedIEE("verificationDossierOk")
+    setDossierOk(true);
   };
 
   const uploadfileTestEtExamFrench = (filesDatabase, filesFileStore) => {
@@ -282,7 +282,7 @@ const ComptenceLinguistique = () => {
               component="span"
               onClick={handleSubmit}
             >
-              Valider mes compétences
+             VALIDER
             </Button>
           </div>
         </CardFooter>
