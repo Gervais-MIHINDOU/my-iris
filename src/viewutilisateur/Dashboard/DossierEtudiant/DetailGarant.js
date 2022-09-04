@@ -10,6 +10,7 @@ import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import { UserContext } from "context/userContextProvider";
 import React, { useContext } from "react";
+import { useForm } from "react-hook-form";
 
 const styles = {
   root: {
@@ -19,6 +20,8 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 const DetailGarant = () => {
+  const {control, register, handleSubmit,clearErrors, formState: { errors , isValid ,isSubmitted }} = useForm();
+
   const { client, setClient } = useContext(UserContext);
 
   const classes = useStyles();
@@ -33,7 +36,7 @@ const DetailGarant = () => {
     client["garant"][name] = value;
   };
 
-  const handleSubmit = (event) => {
+  const onSubmit = (event) => {
     event.preventDefault();
     client["infoGarantOK"] = true;
     baseIris.update(`/${client.id}/client`, { data: client });
@@ -41,6 +44,7 @@ const DetailGarant = () => {
   };
   return (
     <div className={classes.root}>
+      <form onSubmit={handleSubmit(onSubmit)}>
       <GridContainer>
         <Card>
           <CardBody>
@@ -56,6 +60,11 @@ const DetailGarant = () => {
                   value={client?.garant?.nom}
                   shrink={client?.garant?.nom ? true : undefined}
                   onChange={handleChange}
+                  register={register}
+                  errors={errors}
+                  isValid = {isValid}
+                  isSubmitted = {isSubmitted}
+                  control={control}
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={4} lg={4}>
@@ -69,6 +78,11 @@ const DetailGarant = () => {
                   value={client?.garant?.prenom}
                   shrink={client?.garant?.prenom ? true : undefined}
                   onChange={handleChange}
+                  register={register}
+                  errors={errors}
+                  isValid = {isValid}
+                  isSubmitted = {isSubmitted}
+                  control={control}
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={4} lg={4}>
@@ -82,6 +96,11 @@ const DetailGarant = () => {
                   value={client.garant?.sexe}
                   shrink={client?.garant?.sexe ? true : undefined}
                   onChange={handleChange}
+                  register={register}
+                  errors={errors}
+                  isValid = {isValid}
+                  isSubmitted = {isSubmitted}
+                  control={control}
                 />
               </GridItem>
             </GridContainer>
@@ -98,6 +117,11 @@ const DetailGarant = () => {
                   value={client?.garant?.email}
                   shrink={client?.garant?.email ? true : undefined}
                   onChange={handleChange}
+                  register={register}
+                  errors={errors}
+                  isValid = {isValid}
+                  isSubmitted = {isSubmitted}
+                  control={control}
                 />
               </GridItem>
               <GridItem xs={12} sm={4} md={4}>
@@ -111,6 +135,11 @@ const DetailGarant = () => {
                   value={client?.garant?.phone}
                   shrink={client?.garant?.phone ? true : undefined}
                   onChange={handleChange}
+                  register={register}
+                  errors={errors}
+                  isValid = {isValid}
+                  isSubmitted = {isSubmitted}
+                  control={control}
                 />
               </GridItem>
               <GridItem xs={12} sm={4} md={4}>
@@ -124,6 +153,11 @@ const DetailGarant = () => {
                   value={client?.garant?.profession}
                   shrink={client?.garant?.profession ? true : undefined}
                   onChange={handleChange}
+                  register={register}
+                  errors={errors}
+                  isValid = {isValid}
+                  isSubmitted = {isSubmitted}
+                  control={control}
                 />
               </GridItem>
             </GridContainer>
@@ -139,6 +173,11 @@ const DetailGarant = () => {
                   value={client?.garant?.pays}
                   shrink={client?.garant?.pays ? true : undefined}
                   onChange={handleChange}
+                  register={register}
+                  errors={errors}
+                  isValid = {isValid}
+                  isSubmitted = {isSubmitted}
+                  control={control}
                 />
               </GridItem>
 
@@ -153,6 +192,11 @@ const DetailGarant = () => {
                   value={client?.garant?.ville}
                   shrink={client?.garant?.ville ? true : undefined}
                   onChange={handleChange}
+                  register={register}
+                  errors={errors}
+                  isValid = {isValid}
+                  isSubmitted = {isSubmitted}
+                  control={control}
                 />
               </GridItem>
 
@@ -167,6 +211,11 @@ const DetailGarant = () => {
                   value={client?.garant?.bp}
                   shrink={client?.garant?.bp ? true : undefined}
                   onChange={handleChange}
+                  register={register}
+                  errors={errors}
+                  isValid = {isValid}
+                  isSubmitted = {isSubmitted}
+                  control={control}
                 />
               </GridItem>
 
@@ -181,17 +230,24 @@ const DetailGarant = () => {
                   value={client?.garant?.adresse}
                   shrink={client?.garant?.adresse ? true : undefined}
                   onChange={handleChange}
+                  register={register}
+                  errors={errors}
+                  isValid = {isValid}
+                  isSubmitted = {isSubmitted}
+                  control={control}
                 />
               </GridItem>
             </GridContainer>
           </CardBody>
           <CardFooter>
-            <Button color="info" onClick={handleSubmit}>
+            <Button color="info" type="submit">
               Je valide
             </Button>
           </CardFooter>
         </Card>
       </GridContainer>
+      </form>
+    
     </div>
   );
 };

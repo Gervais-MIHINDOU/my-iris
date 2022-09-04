@@ -25,13 +25,25 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 const ParcoursDiplome = ({setParcoursDiplomeOk, setExpanded}) => {
-  const { client, setClient } = React.useContext(UserContext);
+  const [ utilisateur, setUtilisateur ] =  React.useState({});
+  const { client} = React.useContext(UserContext);
+  
+  const setClientFetch = async () => {
+    const user = await baseIris.fetch(`/${client.id}`, {});
+    setUtilisateur({ ...utilisateur, ...user.client });
+  };
+
+  React.useEffect( () => {
+    console.log("RAFFRAICHISSEMENT")
+    setClientFetch()
+  }, []);
+
+
+
+  const [load, setload] = React.useState();
 
   const filesFromFileStore = React.useRef([]);
   const filesFromDatabase = React.useRef({});
-
-  const [formation, setFormation] = React.useState({});
-
   const [openDialog, setOpenDialog] = React.useState(false);
   const classes = useStyles();
 
@@ -43,14 +55,14 @@ const ParcoursDiplome = ({setParcoursDiplomeOk, setExpanded}) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     let size = 0;
-    if(client?.formations){
-       size = Object.keys(client.formations).length;
+    if(utilisateur?.formations){
+       size = Object.keys(utilisateur.formations).length;
     }
     if ( size == 3){
       setParcoursDiplomeOk(true);
       setExpanded("parcoursDiplomeOk")
-      client["parcoursDiplomeOk"] = true;
-      baseIris.post(`/${client.id}/client`, { data: client });
+      utilisateur["parcoursDiplomeOk"] = true;
+      baseIris.post(`/${utilisateur.id}/utilisateur`, { data: utilisateur });
     }else{
       Swal.fire({
         icon: 'error',
@@ -62,50 +74,45 @@ const ParcoursDiplome = ({setParcoursDiplomeOk, setExpanded}) => {
   }
 
   const ajouterFormation = (event) => {
-    event.preventDefault();
-    setOpenDialog(false);
-    const formationClient = { ...formation };
-    formationClient["justificatifs_formation"] = filesFromDatabase.current;
+    console.log(event)
+    setOpenDialog(false);    
+    event["justificatifs_formation"] = filesFromDatabase.current;
 
-    if (!client?.formations) {
-      client["formations"] = {};
+    if (!utilisateur?.formations) {
+      utilisateur["formations"] = {};
     }
 
-    client["formations"][formation.annee_scolaire] = formationClient;
+    utilisateur["formations"][event.annee_scolaire] = event;
 
-    /** Modification du client */
-    baseIris.post(`/${client.id}/client`, { data: client });
+    /** Modification du utilisateur */
+    baseIris.update(`/${utilisateur.id}/client`, { data: utilisateur });
+
     /** Envoi des fichiers sur filestore */
     sendFiles(filesFromFileStore.current, "justificatifs_formation");
-    setFormation({});
+
     /***Reinitialisation des fichiers */
     filesFromDatabase.current = {};
     filesFromFileStore.current = [];
+    setUtilisateur({...utilisateur})
   };
 
   const annuler = (event) => {
     event.preventDefault();
     setOpenDialog(false);
-    setFormation({});
-  };
-
-  const handleChange = (event) => {
-    event.preventDefault();
-    const { name, value } = event.target;
-    formation[name] = value;
-    setFormation(formation);
+    filesFromDatabase.current = {};
+    filesFromFileStore.current = [];
   };
 
   const deleteFormation = (event, annee) => {
     event.preventDefault();
     console.log("suppression de la formation");
-    console.log(client["formations"][annee]);
-    if (client["formations"][annee]?.justificatifs_formation) {
-      suppressionFichierJustifsDeLaformation(client["formations"][annee]);
+    console.log(utilisateur["formations"][annee]);
+    if (utilisateur["formations"][annee]?.justificatifs_formation) {
+      suppressionFichierJustifsDeLaformation(utilisateur["formations"][annee]);
     }
-    delete client["formations"][annee];
-    baseIris.update(`/${client.id}/client`, { data: client });
-    setClient({ ...client });
+    delete utilisateur["formations"][annee];
+    baseIris.update(`/${utilisateur.id}/client`, { data: utilisateur });
+    setUtilisateur({...utilisateur})
   };
 
   const suppressionFichierJustifsDeLaformation = (formation) => {
@@ -182,12 +189,12 @@ const ParcoursDiplome = ({setParcoursDiplomeOk, setExpanded}) => {
   };
 
   const tabFormations = () => {
-    const r = Object.keys(client?.formations)
+    const r = Object.keys(utilisateur?.formations)
       .filter(function (annee) {
-        return (annee != null) & (client["formations"][annee] != null);
+        return (annee != null) & (utilisateur["formations"][annee] != null);
       })
       .map((annee) => {
-        return itemFormation(client["formations"][annee]);
+        return itemFormation(utilisateur["formations"][annee]);
       });
     return r;
   };
@@ -199,8 +206,6 @@ const ParcoursDiplome = ({setParcoursDiplomeOk, setExpanded}) => {
         title="Ajout d'une formation"
         ajouterFormation={ajouterFormation}
         annuler={annuler}
-        handleChange={handleChange}
-        formation={formation}
         upload={upload}
       />
       <GridContainer>
@@ -216,7 +221,7 @@ const ParcoursDiplome = ({setParcoursDiplomeOk, setExpanded}) => {
                   "Etablissement",
                   "Justificatifs",
                 ]}
-                tableData={client?.formations ? tabFormations() : []}
+                tableData={utilisateur?.formations ? tabFormations() : []}
               />
             </CardBody>
             <CardFooter>

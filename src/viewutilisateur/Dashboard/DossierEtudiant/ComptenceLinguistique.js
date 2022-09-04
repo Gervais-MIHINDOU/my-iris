@@ -12,6 +12,7 @@ import { UserContext } from "context/userContextProvider";
 import LinkFile, { sendFiles } from "gestionFichier";
 import { notifAdminEvolutiondossier } from "GestionNotification/useNotification";
 import React, { useContext, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
 const styles = {
   root: {
@@ -20,7 +21,10 @@ const styles = {
 };
 const useStyles = makeStyles(styles);
 const ComptenceLinguistique = ({setExpandedIEE,setDossierOk}) => {
-  const { client, setClient } = useContext(UserContext);
+
+  const {control, register, handleSubmit,clearErrors, formState: { errors , isValid ,isSubmitted }} = useForm();
+
+  const { client} = useContext(UserContext);
   const classes = useStyles();
   const [competence_linguistique, setCompetence_linguistique] = useState({});
   const fileTestEtExamFrenchDatabase = React.useRef([]);
@@ -44,7 +48,7 @@ const ComptenceLinguistique = ({setExpandedIEE,setDossierOk}) => {
     setCompetence_linguistique(competence_linguistiqueClone);
   };
 
-  const handleSubmit = (event) => {
+  const onSubmit = (event) => {
     event.preventDefault();
     const clientUpdated = { ...client };
 
@@ -131,6 +135,8 @@ const ComptenceLinguistique = ({setExpandedIEE,setDossierOk}) => {
 
   return (
     <div className={classes.root}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+
       <Card>
         <CardBody>
           <GridContainer>
@@ -171,6 +177,12 @@ const ComptenceLinguistique = ({setExpandedIEE,setDossierOk}) => {
                           : undefined
                       }
                       onChange={handleChange}
+
+                      register={register}
+                      errors={errors}
+                      isValid = {isValid}
+                      isSubmitted = {isSubmitted}
+                      control={control}
                     />
                   </GridItem>
 
@@ -187,6 +199,12 @@ const ComptenceLinguistique = ({setExpandedIEE,setDossierOk}) => {
                         competence_linguistique?.ville_pays ? true : undefined
                       }
                       onChange={handleChange}
+
+                      register={register}
+                      errors={errors}
+                      isValid = {isValid}
+                      isSubmitted = {isSubmitted}
+                      control={control}
                     />
                   </GridItem>
                 </GridContainer>
@@ -207,6 +225,12 @@ const ComptenceLinguistique = ({setExpandedIEE,setDossierOk}) => {
                           : undefined
                       }
                       onChange={handleChange}
+
+                      register={register}
+                      errors={errors}
+                      isValid = {isValid}
+                      isSubmitted = {isSubmitted}
+                      control={control}
                     />
                   </GridItem>
 
@@ -225,6 +249,12 @@ const ComptenceLinguistique = ({setExpandedIEE,setDossierOk}) => {
                           : undefined
                       }
                       onChange={handleChange}
+
+                      register={register}
+                      errors={errors}
+                      isValid = {isValid}
+                      isSubmitted = {isSubmitted}
+                      control={control}
                     />
                   </GridItem>
 
@@ -243,6 +273,11 @@ const ComptenceLinguistique = ({setExpandedIEE,setDossierOk}) => {
                           : undefined
                       }
                       onChange={handleChange}
+                      register={register}
+                      errors={errors}
+                      isValid = {isValid}
+                      isSubmitted = {isSubmitted}
+                      control={control}
                     />
                   </GridItem>
                 </GridContainer>
@@ -280,13 +315,16 @@ const ComptenceLinguistique = ({setExpandedIEE,setDossierOk}) => {
               variant="contained"
               color="info"
               component="span"
-              onClick={handleSubmit}
+              type="submit"
             >
              VALIDER
             </Button>
           </div>
         </CardFooter>
       </Card>
+
+
+      </form>
     </div>
   );
 };

@@ -1,16 +1,26 @@
 import { FormControl, MenuItem ,InputLabel,Select } from "@material-ui/core";
+import { Controller } from "react-hook-form";
 
-const CountryIris = ({handleChange,value,labelText,id,name}) => {
+const CountryIris = ({errors,control,value,labelText,id,name}) => {
     return (
     <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">{labelText}</InputLabel>
+        <Controller
+                      name="sexe"
+                      control={control}
+                      defaultValue=""
+                      rules={{ required: true }}
+                      render={({ field: { ref, onChange, ...field } }) => (
         <Select
           labelId="demo-simple-select-label"
           id={id}
           name={name}
           value={value}
           label={labelText}
-          onChange={handleChange}
+          aria-invalid={!!errors[name]}
+          innerRef={ref}
+          onChange={({ target: { value } }) => onChange(value)}
+          className="has-input input-lg"
         >
                 <MenuItem value="AF">Afghanistan</MenuItem>
                 <MenuItem value="AX">Aland Islands</MenuItem>
@@ -265,8 +275,19 @@ const CountryIris = ({handleChange,value,labelText,id,name}) => {
                 <MenuItem value="ZM">Zambia</MenuItem>
                 <MenuItem value="ZW">Zimbabwe</MenuItem>
         </Select>
+
+    )}
+    />
+     {errors && errors[name] && (
+              <span style={{ color: "red" }} role="alert">
+                Donnée obligatoire
+              </span>
+            )}
       </FormControl>
+      
     )
+
+
 }
 
 export default CountryIris;

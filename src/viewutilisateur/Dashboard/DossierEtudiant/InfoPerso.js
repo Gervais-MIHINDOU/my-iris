@@ -11,6 +11,8 @@ import GridItem from "components/Grid/GridItem.js";
 import { UserContext } from "context/userContextProvider";
 import React, { useContext } from "react";
 import CountryIris from "./CountryIris";
+import { Controller, useForm } from "react-hook-form";
+
 
 const styles = {
   root: {
@@ -20,29 +22,22 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 const InfoPerso = ({setInfoPersoOK,setExpanded}) => {
-  const { client, setClient } = useContext(UserContext);
+  const { client} = useContext(UserContext);
+
+  const {control, handleSubmit, formState: { errors }} = useForm();
 
   const classes = useStyles();
 
-  const handleChange = (event) => {
-    event.preventDefault();
-    const { name, value } = event.target;
-    client[name] = value;
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    
-    client["infoPersoOK"] = true;
-    baseIris.update(`/${client.id}/client`, { data: client });
+  const onSubmit = (event) => {                                                 
+    event["infoPersoOK"] = true;
+    baseIris.update(`/${client.id}/client`, { data: event });
     setInfoPersoOK(true);
     setExpanded("infoPersoOK");
   };
 
   return (
     <div className={classes.root}>
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <GridContainer>
         <Card>
           <CardBody>
@@ -57,13 +52,11 @@ const InfoPerso = ({setInfoPersoOK,setExpanded}) => {
                   }}
                   value={client?.nom}
                   shrink={client?.nom ? true : undefined}
-                  onChange={handleChange}
+                  errors={errors}
+                  control={control}
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={4} lg={4}>
-              <FormControl
-                 required={true}
-               >
                 <CustomInput
                   name="prenom"
                   labelText="Prenom *"
@@ -73,24 +66,37 @@ const InfoPerso = ({setInfoPersoOK,setExpanded}) => {
                   }}
                   value={client?.prenom}
                   shrink={client?.prenom ? true : undefined}
-                  onChange={handleChange}
+                  errors={errors}
+                  control={control}
                 />
-                </FormControl>
+               
               </GridItem>
               <GridItem xs={12} sm={12} md={4} lg={4}>
                 <br/>
                 <FormControl fullWidth>
                   <InputLabel id="demo-simple-select-label">Sexe *</InputLabel>
+                  <Controller
+                      name="sexe"
+                      control={control}
+                      defaultValue=""
+                      rules={{ required: true }}
+                      render={({ field: { ref, onChange, ...field } }) => (   
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={client?.sexe}
                     label="Sexe"
-                    onChange={handleChange}
+                    name="sexe"
+                    aria-invalid={!!errors.sexe}
+                    innerRef={ref}
+                    onChange={({ target: { value } }) => onChange(value)}
+                    className="has-input input-lg"
                   >
                     <MenuItem value={"F"}>F</MenuItem>
                     <MenuItem value={"M"}>M</MenuItem>
                   </Select>
+                  )}
+                  />
                 </FormControl>
               </GridItem>
             </GridContainer>
@@ -106,7 +112,8 @@ const InfoPerso = ({setInfoPersoOK,setExpanded}) => {
                   }}
                   value={client?.email}
                   shrink={client?.email ? true : undefined}
-                  onChange={handleChange}
+                  errors={errors}
+                  control={control}
                 />
               </GridItem>
               <GridItem xs={12} sm={4} md={4}>
@@ -119,7 +126,8 @@ const InfoPerso = ({setInfoPersoOK,setExpanded}) => {
                   }}
                   value={client?.phone}
                   shrink={client?.phone ? true : undefined}
-                  onChange={handleChange}
+                  errors={errors}
+                  control={control}
                 />
               </GridItem>
               <GridItem xs={12} sm={4} md={4}>
@@ -132,7 +140,8 @@ const InfoPerso = ({setInfoPersoOK,setExpanded}) => {
                   }}
                   value={client?.phone_parent}
                   shrink={client?.phone_parent ? true : undefined}
-                  onChange={handleChange}
+                  errors={errors}
+                  control={control}
                 />
               </GridItem>
             </GridContainer>
@@ -143,8 +152,9 @@ const InfoPerso = ({setInfoPersoOK,setExpanded}) => {
                   name="pays"
                   labelText="Pays *"
                   id="pays"
-                  handleChange = {handleChange}
                   value= {client?.pays}
+                  errors={errors}
+                  control={control}
                   />      
               </GridItem>
 
@@ -158,8 +168,9 @@ const InfoPerso = ({setInfoPersoOK,setExpanded}) => {
                   }}
                   value={client?.ville}
                   shrink={client?.ville ? true : undefined}
-                  onChange={handleChange}
-                />
+                  errors={errors}
+                  control={control}
+                  />   
               </GridItem>
 
               <GridItem xs={12} sm={2} md={3}>
@@ -172,7 +183,8 @@ const InfoPerso = ({setInfoPersoOK,setExpanded}) => {
                   }}
                   value={client?.province_etat_region}
                   shrink={client?.province_etat_region ? true : undefined}
-                  onChange={handleChange}
+                  errors={errors}
+                  control={control}
                 />
               </GridItem>
 
@@ -186,7 +198,8 @@ const InfoPerso = ({setInfoPersoOK,setExpanded}) => {
                   }}
                   value={client?.bp}
                   shrink={client?.bp ? true : undefined}
-                  onChange={handleChange}
+                  errors={errors}
+                  control={control}
                 />
               </GridItem>
 
@@ -200,7 +213,8 @@ const InfoPerso = ({setInfoPersoOK,setExpanded}) => {
                   }}
                   value={client?.adresse}
                   shrink={client?.adresse ? true : undefined}
-                  onChange={handleChange}
+                  errors={errors}
+                  control={control}
                 />
               </GridItem>
             </GridContainer>
@@ -210,18 +224,32 @@ const InfoPerso = ({setInfoPersoOK,setExpanded}) => {
                 <br/>
                 <FormControl fullWidth>
                   <InputLabel id="demo-simple-select-label">Type de pièce d'identité *</InputLabel>
+                 
+                <Controller
+                      name="sexe"
+                      control={control}
+                      defaultValue=""
+                      rules={{ required: true }}
+                      render={({ field: { ref, onChange, ...field } }) => (  
+
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={client?.type_piece_identite}
                     label="Type de pièce d'identité"
-                    onChange={handleChange}
+                    name="type_piece_identite"
+                    aria-invalid={!!errors[name]}
+                    innerRef={ref}
+                    onChange={({ target: { value } }) => onChange(value)}
+                    className="has-input input-lg"
                   >
                     <MenuItem value={"Passeport"}>Passeport</MenuItem>
                     <MenuItem value={"CNI"}>CNI</MenuItem>
                     <MenuItem value={"Carte de séjour,"}>Carte de séjour</MenuItem>
                     <MenuItem value={"Récépissé"}>Récépissé</MenuItem>
                   </Select>
+                      )}
+                   />
                 </FormControl>
               </GridItem>
               <GridItem xs={12} sm={3} md={3}>
@@ -234,7 +262,8 @@ const InfoPerso = ({setInfoPersoOK,setExpanded}) => {
                   }}
                   value={client?.numero_piece_identite}
                   shrink={client?.numero_piece_identite ? true : undefined}
-                  onChange={handleChange}
+                  errors={errors}
+                  control={control}
                 />
               </GridItem>
               <GridItem xs={12} sm={3} md={3}>
@@ -243,8 +272,9 @@ const InfoPerso = ({setInfoPersoOK,setExpanded}) => {
                   name="pays_de_delivrance_piece_identite"
                   labelText="Pays de délivrance  *"
                   id="pays_de_delivrance_piece_identite"
-                  handleChange = {handleChange}
                   value= {client?.pays_de_delivrance_piece_identite}
+                  errors={errors}
+                  control={control}
                   />  
               </GridItem>
 
@@ -258,7 +288,8 @@ const InfoPerso = ({setInfoPersoOK,setExpanded}) => {
                   }}
                   value={client?.date_limite_de_validite}
                   shrink={client?.date_limite_de_validite ? true : undefined}
-                  onChange={handleChange}
+                  errors={errors}
+                  control={control}
                 />
               </GridItem>
             </GridContainer>

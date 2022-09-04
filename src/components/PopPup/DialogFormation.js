@@ -13,15 +13,16 @@ import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import PropTypes from "prop-types";
 import React from "react";
+import { useForm } from "react-hook-form";
 
 const DialogFormation = (props) => {
+  const {control,handleSubmit, formState: { errors}} = useForm();
+
   const {
     open,
     title,
     ajouterFormation,
     annuler,
-    handleChange,
-    formation,
     upload,
   } = props;
 
@@ -47,6 +48,8 @@ const DialogFormation = (props) => {
   const useStyles = makeStyles(styles);
 
   const CreerFormation = () => {
+   
+
     const classes = useStyles();
     return (
       <div className={classes.root}>
@@ -62,9 +65,10 @@ const DialogFormation = (props) => {
                     formControlProps={{
                       fullWidth: true,
                     }}
-                    value={formation?.annee_scolaire}
-                    shrink={formation?.annee_scolaire ? true : undefined}
-                    onChange={handleChange}
+                   // value={formation?.annee_scolaire}
+                   // shrink={formation?.annee_scolaire ? true : undefined}
+                    errors={errors}
+                    control={control}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4} lg={4}>
@@ -75,9 +79,10 @@ const DialogFormation = (props) => {
                     formControlProps={{
                       fullWidth: true,
                     }}
-                    value={formation?.pays}
-                    shrink={formation?.pays ? true : undefined}
-                    onChange={handleChange}
+                  //  value={formation?.pays}
+                  //  shrink={formation?.pays ? true : undefined}
+                    errors={errors}
+                    control={control}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4} lg={4}>
@@ -88,9 +93,10 @@ const DialogFormation = (props) => {
                     formControlProps={{
                       fullWidth: true,
                     }}
-                    value={formation?.province_etat_region}
-                    shrink={formation?.province_etat_region ? true : undefined}
-                    onChange={handleChange}
+                  //  value={formation?.province_etat_region}
+                  //  shrink={formation?.province_etat_region ? true : undefined}
+                    errors={errors}
+                    control={control}
                   />
                 </GridItem>
               </GridContainer>
@@ -104,9 +110,10 @@ const DialogFormation = (props) => {
                     formControlProps={{
                       fullWidth: true,
                     }}
-                    value={formation?.ville}
-                    shrink={formation?.ville ? true : undefined}
-                    onChange={handleChange}
+                  //  value={formation?.ville}
+                  //  shrink={formation?.ville ? true : undefined}
+                    errors={errors}
+                    control={control}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={4} md={8}>
@@ -117,9 +124,10 @@ const DialogFormation = (props) => {
                     formControlProps={{
                       fullWidth: true,
                     }}
-                    value={formation?.etablissement}
-                    shrink={formation?.etablissement ? true : undefined}
-                    onChange={handleChange}
+                  //  value={formation?.etablissement}
+                  //  shrink={formation?.etablissement ? true : undefined}
+                    errors={errors}
+                    control={control}
                   />
                 </GridItem>
               </GridContainer>
@@ -132,9 +140,10 @@ const DialogFormation = (props) => {
                     formControlProps={{
                       fullWidth: true,
                     }}
-                    value={formation?.niveau}
-                    shrink={formation?.niveau ? true : undefined}
-                    onChange={handleChange}
+                  //  value={formation?.niveau}
+                  //  shrink={formation?.niveau ? true : undefined}
+                    errors={errors}
+                    control={control}
                   />
                 </GridItem>
 
@@ -146,9 +155,10 @@ const DialogFormation = (props) => {
                     formControlProps={{
                       fullWidth: true,
                     }}
-                    value={formation?.domaine}
-                    shrink={formation?.domaine ? true : undefined}
-                    onChange={handleChange}
+                 //   value={formation?.domaine}
+                 //   shrink={formation?.domaine ? true : undefined}
+                    errors={errors}
+                    control={control}
                   />
                 </GridItem>
               </GridContainer>
@@ -162,9 +172,10 @@ const DialogFormation = (props) => {
                     formControlProps={{
                       fullWidth: true,
                     }}
-                    value={formation?.moyenne}
-                    shrink={formation?.moyenne ? true : undefined}
-                    onChange={handleChange}
+                   // value={formation?.moyenne}
+                   // shrink={formation?.moyenne ? true : undefined}
+                    errors={errors}
+                    control={control}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={6} md={6}>
@@ -184,12 +195,14 @@ const DialogFormation = (props) => {
 
   return (
     <div>
+     
       <Dialog
         open={open}
         onClose={annuler}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
+      <form onSubmit={handleSubmit(ajouterFormation)} >
         <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
         <DialogContent>
           <CreerFormation />
@@ -198,11 +211,14 @@ const DialogFormation = (props) => {
           <Button color="info" onClick={annuler}>
             ANNULER
           </Button>
-          <Button color="success" onClick={ajouterFormation} autoFocus>
+          <Button type="submit" color="success" autoFocus>
             AJOUTER
           </Button>
         </DialogActions>
+      </form>
       </Dialog>
+     
+     
     </div>
   );
 };

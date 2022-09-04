@@ -3,8 +3,11 @@ import baseIris from "baseiris";
 import CustomInput from "components/CustomInput/CustomInput";
 import { UserContext } from "context/userContextProvider";
 import React, { useContext } from "react";
+import { useForm } from "react-hook-form";
 
 const ChoixPro = () => {
+  const {control, register, handleSubmit,clearErrors, formState: { errors , isValid ,isSubmitted }} = useForm();
+
   const { client, setClient } = useContext(UserContext);
   const handleChange = (event) => {
     event.preventDefault();
@@ -12,7 +15,7 @@ const ChoixPro = () => {
     client[name] = value;
   };
 
-  const handleSubmit = (event) => {
+  const onSubmit = (event) => {
     event.preventDefault();
     client["choixProOK"] = true;
     baseIris.update(`/${client.id}/client`, { data: client });
@@ -39,7 +42,7 @@ const ChoixPro = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <InputLabel style={style}>
           {"L'élève explique en quelques mots son choix"}
         </InputLabel>
@@ -57,7 +60,11 @@ const ChoixPro = () => {
           value={client?.choix_filière}
           shrink={client?.choix_filière ? true : undefined}
           onChange={handleChange}
-          required
+          register={register}
+          errors={errors}
+          isValid = {isValid}
+          isSubmitted = {isSubmitted}
+          control={control}
         />
         <br /> <br />
         <InputLabel style={style}>
@@ -77,14 +84,17 @@ const ChoixPro = () => {
           value={client?.loisir}
           shrink={client?.loisir ? true : undefined}
           onChange={handleChange}
-          required
+          register={register}
+          errors={errors}
+          isValid = {isValid}
+          isSubmitted = {isSubmitted}
+          control={control}
         />
         <br />
         <br />
         <Button
           color="primary"
           type="submit"
-          onClick={handleSubmit}
           style={style_button}
         >
           VALIDER

@@ -11,6 +11,7 @@ import Clear from "@material-ui/icons/Clear";
 import Check from "@material-ui/icons/Check";
 // core components
 import styles from "assets/jss/material-dashboard-react/components/customInputStyle.js";
+import { Controller } from "react-hook-form";
 
 const useStyles = makeStyles(styles);
 
@@ -27,9 +28,77 @@ const CustomInput = (props) => {
     rtlActive,
     value,
     shrink,
-    onChange,
     name,
+    errors,
+    control,
+    onChange,
   } = props;
+
+
+
+  const Response = () => {
+
+    if(control){
+      
+      return  (
+
+
+
+
+     <Controller
+              name={name}
+              control={control}
+              defaultValue=""
+              rules={{ required: true }}
+              render={({ field: { ref, onChange, ...field } }) => (
+                
+            <Input
+                classes={{
+                  root: marginTop,
+                  disabled: classes.disabled,
+                  underline: underlineClasses,
+                  placeholder: classes.Checkplaceholder,
+                  input: classes.input,
+                }}
+                id={id}
+                {...inputProps}
+                inputProps={newInputProps}
+                placeholder={value}
+                name={name}
+                aria-invalid={!!errors[name]}
+                innerRef={ref}
+                onChange={({ target: { value } }) => onChange(value)}
+                className="has-input input-lg"
+              />
+
+
+              )}
+      />
+            )
+
+    }else{
+
+      return  (
+      <Input
+          classes={{
+            root: marginTop,
+            disabled: classes.disabled,
+            underline: underlineClasses,
+            placeholder: classes.Checkplaceholder,
+            input: classes.input,
+          }}
+          id={id}
+          {...inputProps}
+          inputProps={newInputProps}
+          placeholder={value}
+          onChange={onChange}
+          name={name} 
+    />)
+   
+    }
+   
+};
+
 
   const labelClasses = classNames({
     [" " + classes.labelRootError]: error,
@@ -66,29 +135,27 @@ const CustomInput = (props) => {
           {labelText}
         </InputLabel>
       ) : null}
-      <Input
-        classes={{
-          root: marginTop,
-          disabled: classes.disabled,
-          underline: underlineClasses,
-          placeholder: classes.Checkplaceholder,
-          input: classes.input,
-        }}
-        id={id}
-        {...inputProps}
-        inputProps={newInputProps}
-        placeholder={value}
-        onChange={onChange}
-        name={name}
-      />
-      {error ? (
-        <Clear className={classes.feedback + " " + classes.labelRootError} />
-      ) : success ? (
-        <Check className={classes.feedback + " " + classes.labelRootSuccess} />
-      ) : null}
-    </FormControl>
+
+      <Response />
+  {error ? (
+      <Clear className={classes.feedback + " " + classes.labelRootError} />
+    ) : success ? (
+      <Check className={classes.feedback + " " + classes.labelRootSuccess} />
+    ) : null}
+      
+      {errors && errors[name] && (
+              <span style={{ color: "red" }} role="alert">
+               La donnée {labelText} est obligatoire
+              </span>
+            )}
+     
+</FormControl>
+    
   );
-};
+
+  
+
+}
 export default CustomInput;
 CustomInput.propTypes = {
   labelText: PropTypes.node,
