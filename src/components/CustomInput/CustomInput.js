@@ -61,6 +61,7 @@ const CustomInput = (props) => {
                   input: classes.input,
                 }}
                 id={id}
+                {...field}
                 {...inputProps}
                 inputProps={newInputProps}
                 placeholder={value}
@@ -145,7 +146,7 @@ const CustomInput = (props) => {
       
       {errors && errors[name] && (
               <span style={{ color: "red" }} role="alert">
-               La donnée {labelText} est obligatoire
+                Donnée obligatoire
               </span>
             )}
      
